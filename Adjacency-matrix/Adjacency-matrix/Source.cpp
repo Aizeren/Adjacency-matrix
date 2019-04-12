@@ -5,19 +5,18 @@
 using namespace std;
 
 int main() {
-	int nodesNumber = 0;
-	string str;
-	string target, source;
-	int targetIndex, sourceIndex;
+	int nodesNumber = 0, targetIndex, sourceIndex, i;
+	string str, target, source;
 	ifstream nodes;
-	int i = 0;
-	nodes.open("Nodes.csv");
+
+	nodes.open("Resources/Nodes.csv");
 	if (!nodes.is_open())
 		return 1;
 	//считаем кол-во строк
 	while (getline(nodes, str)) {
 		nodesNumber++;
 	}
+	nodes.close();
 	//создаем матрицу смежности
 	int ** arr = new int *[nodesNumber];
 	for (int i = 0; i < nodesNumber; i++) {
@@ -28,12 +27,12 @@ int main() {
 			arr[i][j] = 0;
 		}
 	}
-	nodes.close();
 	
 	//массив для соот-ия id и индекса
 	int *nodesIndexes = new int[nodesNumber];
 
-	nodes.open("Nodes.csv");
+	i = 0;
+	nodes.open("Resources/Nodes.csv");
 	while (getline(nodes, str)) {
 		nodesIndexes[i] = stoi(str);
 		i++;
@@ -41,7 +40,7 @@ int main() {
 	nodes.close();
 
 	ifstream edges;
-	edges.open("Edges.csv");
+	edges.open("Resources/Edges.csv");
 	if (!edges.is_open())
 		return 2;
 	//считывам source и target из списка ребер, ищем соот-ую ячейку в матрице смежности, проставляем с соот-ую ячейку 1
@@ -55,8 +54,9 @@ int main() {
 		}
 		arr[sourceIndex][targetIndex] = 1;
 	}
+	edges.close();
 
-	ofstream adjMatrix("Adjacency-matrix.csv");
+	ofstream adjMatrix("Resources/Adjacency-matrix.csv");
 	if (!adjMatrix.is_open())
 		return 3;
 	for (int i = 0; i < nodesNumber; i++) {
