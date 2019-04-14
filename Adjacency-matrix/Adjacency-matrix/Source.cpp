@@ -5,19 +5,19 @@
 using namespace std;
 
 int main() {
-	int nodesNumber = 0, targetIndex, sourceIndex, i;
+	int nodesNumber = 0, targetIndex, sourceIndex;
 	string str, target, source;
 	ifstream nodes;
 
-	nodes.open("Resources/Nodes.csv");
+	nodes.open("../../Resources/Nodes.csv");
 	if (!nodes.is_open())
 		return 1;
-	//считаем кол-во строк
+	//count number of rows
 	while (getline(nodes, str)) {
 		nodesNumber++;
 	}
 	nodes.close();
-	//создаем матрицу смежности
+	//initialize adj-matrix
 	int ** arr = new int *[nodesNumber];
 	for (int i = 0; i < nodesNumber; i++) {
 		arr[i] = new int[nodesNumber];
@@ -28,22 +28,21 @@ int main() {
 		}
 	}
 	
-	//массив для соот-ия id и индекса
+	//array of nodes
 	int *nodesIndexes = new int[nodesNumber];
 
-	i = 0;
-	nodes.open("Resources/Nodes.csv");
-	while (getline(nodes, str)) {
+	nodes.open("../../Resources/Nodes.csv");
+	for (int i = 0; i < nodesNumber; i++) {
+		getline(nodes, str);
 		nodesIndexes[i] = stoi(str);
-		i++;
 	}
 	nodes.close();
 
 	ifstream edges;
-	edges.open("Resources/Edges.csv");
+	edges.open("../../Resources/Edges.csv");
 	if (!edges.is_open())
 		return 2;
-	//считывам source и target из списка ребер, ищем соот-ую ячейку в матрице смежности, проставляем с соот-ую ячейку 1
+	//read source and target from edges list, search for appropriate cell in adjacency matrix, write 1 when found
 	while (getline(edges, source, ',')) {
 		getline(edges, target, '\n');
 		for (int i = 0; i < nodesNumber; i++) {
@@ -56,7 +55,8 @@ int main() {
 	}
 	edges.close();
 
-	ofstream adjMatrix("Resources/Adjacency-matrix.csv");
+	//form adjacency matrix
+	ofstream adjMatrix("../../Resources/Adjacency-matrix.csv");
 	if (!adjMatrix.is_open())
 		return 3;
 	for (int i = 0; i < nodesNumber; i++) {
