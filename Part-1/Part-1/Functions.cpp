@@ -1,10 +1,17 @@
 #include "Header.h"
 int ** multiplication(int ** a, int ** b, int n) {
-	int ** res = a;
-	
+	int ** res = new int*[n];
+	for (int i = 0; i < n; i++) {
+		res[i] = new int[n];
+	}
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
 			res[i][j] = 0;
+		}
+	}
+	
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
 			for (int k = 0; k < n; k++) {
 				res[i][j] += a[i][k] * b[k][j];
 			}
@@ -15,7 +22,10 @@ int ** multiplication(int ** a, int ** b, int n) {
 	return res;
 }
 int ** logSum(int ** a, int ** b, int n) {
-	int ** res = a;
+	int ** res = new int*[n];
+	for (int i = 0; i < n; i++) {
+		res[i] = new int[n];
+	}
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
 			if ((a[i][j] == 1) || (b[i][j] == 1))
@@ -27,7 +37,10 @@ int ** logSum(int ** a, int ** b, int n) {
 	return res;
 }
 int ** transp(int ** a, int n) {
-	int ** res = a;
+	int ** res = new int*[n];
+	for (int i = 0; i < n; i++) {
+		res[i] = new int[n];
+	}
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
 			res[i][j] = a[j][i];
@@ -37,7 +50,10 @@ int ** transp(int ** a, int n) {
 }
 
 int ** logMult(int ** a, int ** b, int n) {
-	int ** res = a;
+	int ** res = new int*[n];
+	for (int i = 0; i < n; i++) {
+		res[i] = new int[n];
+	}
 	for (int i = 0; i < n; i++) {
 		for (int j = 0; j < n; j++) {
 			if ((a[i][j] == 1) && (b[i][j] == 1))

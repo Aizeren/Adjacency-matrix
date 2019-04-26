@@ -38,27 +38,23 @@ int main() {
 		for (int j = 0; j < nodesNumber-1; j++) {
 			getline(adjMatrixStream, str, ';');
 			adjMatrix[i][j] = stoi(str);
-			resMatrix[i][j] = 0;
+			resMatrix[i][j] = adjMatrix[i][j];
 			currMatrix[i][j] = adjMatrix[i][j];
 		}
 		getline(adjMatrixStream, str);
 		adjMatrix[i][nodesNumber-1] = stoi(str);
-		resMatrix[i][nodesNumber-1] = 0;
+		resMatrix[i][nodesNumber-1] = adjMatrix[i][nodesNumber - 1];
 		currMatrix[i][nodesNumber - 1] = adjMatrix[i][nodesNumber - 1];
+		resMatrix[i][i] = 1;
 	}
-	
-
-	
 	//находим матрицу достижимости
 	for (int i = 0; i < nodesNumber; i++) {
 		currMatrix = multiplication(currMatrix, currMatrix, nodesNumber);
 		resMatrix = logSum(resMatrix, currMatrix, nodesNumber);
 	}
-	//находим матрицу связности
+	
+	//находим матрицу сильной связности
 	resMatrix = logMult(resMatrix, transp(resMatrix, nodesNumber) , nodesNumber);
-	for (int i = 0; i < nodesNumber; i++) {
-		resMatrix[i][i] = 1;
-	}
 	
 	//находим компоненты связности
 	int counter = nodesNumber;
