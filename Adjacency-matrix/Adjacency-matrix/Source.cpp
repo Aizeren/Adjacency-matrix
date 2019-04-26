@@ -43,7 +43,7 @@ int main() {
 	if (!edges.is_open())
 		return 2;
 	//read source and target from edges list, search for appropriate cell in adjacency matrix, write 1 when found
-	while (getline(edges, source, ',')) {
+	while (getline(edges, source, ';')) {
 		getline(edges, target, '\n');
 		for (int i = 0; i < nodesNumber; i++) {
 			if (nodesIndexes[i] == stoi(source))
@@ -61,7 +61,7 @@ int main() {
 		return 3;
 	for (int i = 0; i < nodesNumber; i++) {
 		for (int j = 0; j < nodesNumber-1; j++) {
-			adjMatrix << arr[i][j] << ",";
+			adjMatrix << arr[i][j] << ";";
 		}
 		adjMatrix << arr[i][nodesNumber-1] << endl;
 	}

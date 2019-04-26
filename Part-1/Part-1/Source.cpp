@@ -36,7 +36,7 @@ int main() {
 	}
 	for (int i = 0; i < nodesNumber; i++) {
 		for (int j = 0; j < nodesNumber-1; j++) {
-			getline(adjMatrixStream, str, ',');
+			getline(adjMatrixStream, str, ';');
 			adjMatrix[i][j] = stoi(str);
 			resMatrix[i][j] = 0;
 			currMatrix[i][j] = adjMatrix[i][j];
@@ -203,7 +203,7 @@ int main() {
 		ofstream adjMatrixOfGraph("../../Resources/Adjacency-matrix-for-max-connected-component.csv");
 		for (int i = 0; i < maxComponentAmount; i++) {
 			for (int j = 0; j < maxComponentAmount-1; j++) {
-				adjMatrixOfGraph << maxComponentAdjMatrix[i][j] << ",";
+				adjMatrixOfGraph << maxComponentAdjMatrix[i][j] << ";";
 			}
 			adjMatrixOfGraph << maxComponentAdjMatrix[i][maxComponentAmount - 1] << endl;
 		}
@@ -231,21 +231,78 @@ int main() {
 	float avgVertexPower;
 	avgVertexPower = averageVertexPower(maxComponentAdjMatrix, maxComponentAmount);
 	cout << "Ñðåäíÿÿ ñòåïåíü âåðøèíû â ãðàôå: " << avgVertexPower << endl;
+
+	//èùåì êîëè÷åñòâî óçëîâ i-îé ñòåïåíè
+	float * countOfDegrees = new float[maxComponentAmount];
+	for (int i = 0; i < maxComponentAmount; i++) {
+		countOfDegrees[i] = 0;
+	}
+	for (int i = 0; i < maxComponentAmount; i++) {
+		counter = 0;
+		for (int j = 0; j < maxComponentAmount; j++) {
+			counter += maxComponentAdjMatrix[i][j];
+		}
+		countOfDegrees[counter]++;
+	}
+	for (int i = 0; i < maxComponentAmount; i++) {
+		countOfDegrees[i] /= maxComponentAmount;
+	}
+	ofstream barÑhart("../../Resources/Bar-chart(degrees).csv");
+	barÑhart << "Äîëÿ óçëîâ" << endl;
+	for (int i = 0; i < maxComponentAmount; i++) {
+			barÑhart << to_string(countOfDegrees[i]) << endl;
+	}
+	barÑhart.close();
+	int ** commonNeighborsMatrix = CommonNeighbors(maxComponentAdjMatrix, maxComponentAmount);
+		ofstream commonNeighborsStream("../../Resources/Common-neighbors.csv");
+		for (int i = 0; i < maxComponentAmount; i++) {
+			for (int j = 0; j < maxComponentAmount; j++) {
+				commonNeighborsStream << to_string(commonNeighborsMatrix[i][j]) << ";";
+			}
+			commonNeighborsStream << endl;
+		}
+		commonNeighborsStream.close();
+	float ** JaccardCoefficientMatrix = JaccardCoefficient(maxComponentAdjMatrix, maxComponentAmount);
+		ofstream JaccardCoefficientStream("../../Resources/Jaccard-coefficient.csv");
+		for (int i = 0; i < maxComponentAmount; i++) {
+			for (int j = 0; j < maxComponentAmount; j++) {
+				JaccardCoefficientStream << to_string(JaccardCoefficientMatrix[i][j]) << ";";
+			}
+			JaccardCoefficientStream << endl;
+		}
+		JaccardCoefficientStream.close();
+	float ** AdamicMatrix = Adamic(maxComponentAdjMatrix, maxComponentAmount);
+		ofstream AdamicStream("../../Resources/Adamic.csv");
+		for (int i = 0; i < maxComponentAmount; i++) {
+			for (int j = 0; j < maxComponentAmount; j++) {
+				AdamicStream << to_string(AdamicMatrix[i][j]) << ";";
+			}
+			AdamicStream << endl;
+		}
+		AdamicStream.close();
+	int ** PreferentialAttachmentMatrix = PreferentialAttachment(maxComponentAdjMatrix, maxComponentAmount);
+		ofstream PreferentialAttachmentStream("../../Resources/Preferential-attachment.csv");
+		for (int i = 0; i < maxComponentAmount; i++) {
+			for (int j = 0; j < maxComponentAmount; j++) {
+				PreferentialAttachmentStream << to_string(PreferentialAttachmentMatrix[i][j]) << ";";
+			}
+			PreferentialAttachmentStream << endl;
+		}
+		PreferentialAttachmentStream.close();
+	
 	/*for (int j = 0; j < maxComponentAmount; j++) {
-		cout << avgVertexPower[j] << " ";
+		cout << countOfDegrees[j] << " ";
 	}*/
 	/*cout << endl;
 	for (int j = 0; j < maxComponentAmount; j++) {
 		cout << centralVnumbers[j] << " ";
 	}*/
-
 	/*for (int i = 0; i < maxComponentAmount; i++) {
 		for (int j = 0; j < maxComponentAmount; j++) {
-			cout << pathLengthArr[i][j] << " ";
+			cout << JaccardCoefficientMatrix[i][j] << " ";
 		}
 		cout << endl;
 	}*/
-
 	system("pause");
 	return 0;
 }

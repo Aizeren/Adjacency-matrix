@@ -105,3 +105,99 @@ float averageVertexPower(int ** arr, int n) {
 
 	return res/n;
 }
+int ** CommonNeighbors(int ** adjMatrix, int n) {
+	int ** res = new int*[n];
+	for (int i = 0; i < n; i++)
+		res[i] = new int[n];
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			res[i][j] = 0;
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			for (int k = 0; k < n; k++) {
+				if ((adjMatrix[j][k] == 1) && (adjMatrix[i][k] == 1))
+					res[i][j]++;
+			}
+		}
+	}
+	return res;
+}
+float ** JaccardCoefficient(int ** adjMatrix, int n) {
+	float ** res = new float*[n];
+	int ** Intersection = new int*[n];
+	int ** Union = new int*[n];
+	for (int i = 0; i < n; i++) {
+		res[i] = new float[n];
+		Intersection[i] = new int[n];
+		Union[i] = new int[n];
+	}
+		
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			res[i][j] = 0;
+			Intersection[i][j] = 0;
+			Union[i][j] = 0;
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			for (int k = 0; k < n; k++) {
+				if ((adjMatrix[j][k] == 1) && (adjMatrix[i][k] == 1))
+					Intersection[i][j]++;
+				if ((adjMatrix[j][k] == 1) || (adjMatrix[i][k] == 1))
+					Union[i][j]++;
+			}
+			res[i][j] = (float)Intersection[i][j] / (float)Union[i][j];
+		}
+	}
+	return res;
+}
+float ** Adamic(int ** adjMatrix, int n) {
+	float ** res = new float*[n];
+	int * degrees = new int[n];
+	for (int i = 0; i < n; i++) {
+		res[i] = new float[n];
+		degrees[i] = 0;
+	}
+
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			res[i][j] = 0;
+			if (adjMatrix[i][j] == 1) {
+				degrees[i]++;
+			}
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			for (int k = 0; k < n; k++) {
+				if ((adjMatrix[j][k] == 1) && (adjMatrix[i][k] == 1))
+					res[i][j] += 1 / log(degrees[k]);
+			}
+		}
+	}
+	return res;
+}
+int ** PreferentialAttachment(int ** adjMatrix, int n) {
+	int ** res = new int*[n];
+	int * degrees = new int[n];
+	for (int i = 0; i < n; i++) {
+		res[i] = new int[n];
+		degrees[i] = 0;
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			if (adjMatrix[i][j] == 1) {
+				degrees[i]++;
+			}
+		}
+	}
+	for (int i = 0; i < n; i++) {
+		for (int j = 0; j < n; j++) {
+			res[i][j] = degrees[i] * degrees[j];
+		}
+	}
+	return res;
+}

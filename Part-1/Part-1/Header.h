@@ -13,3 +13,7 @@ float avgPathLength(int ** arr, int n);
 int * centralVertex(int *ecc, int radius, int n);
 int * periphVertex(int *ecc, int diameter, int n);
 float averageVertexPower(int ** arr, int n);
+int ** CommonNeighbors(int ** adjMatrix, int n);
+float ** JaccardCoefficient(int ** adjMatrix, int n);
+float ** Adamic(int ** adjMatrix, int n);
+int ** PreferentialAttachment(int ** adjMatrix, int n);

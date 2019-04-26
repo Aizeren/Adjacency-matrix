@@ -38,13 +38,13 @@ int main() {
 	for (int i = 0; i < nodesNumber; i++) {
 		adjList << nodesIndexes[i];
 		for (int j = 0; j < nodesNumber - 1; j++) {
-			getline(adjMatrix, str, ',');
+			getline(adjMatrix, str, ';');
 			if (stoi(str) == 1)
-				adjList << ',' << nodesIndexes[j];
+				adjList << ';' << nodesIndexes[j];
 		}
 		getline(adjMatrix, str);
 		if (stoi(str) == 1)
-			adjList << ',' << nodesIndexes[nodesNumber-1];
+			adjList << ';' << nodesIndexes[nodesNumber-1];
 		adjList << '\n';
 	}
 	adjList.close();
